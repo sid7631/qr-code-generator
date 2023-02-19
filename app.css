@@ -1,0 +1,31 @@
+.bg-white {
+    background-color: rgb(255 255 255 / 1);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 12rem;
+}
+
+.heading {
+    text-align: center;
+}
+
+.title {
+    font-size: 3.75rem;
+    letter-spacing: -0.025em;
+}
+
+.sub-title {
+    font-size: 1.125rem;
+    line-height: 2rem;
+    color: rgb(75 85 99 / 1);
+    margin-top: 0.5rem;
+}
+
+.user-input {
+    margin-top: 2.5rem;
+}

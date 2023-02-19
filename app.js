@@ -28,4 +28,4 @@ function generate_qr(user_input) {
     });
 }
 
-generate_qr({value:'siddharth'})
+// generate_qr({value:'siddharth'})
