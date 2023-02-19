@@ -29,3 +29,26 @@
 .user-input {
     margin-top: 2.5rem;
 }
+
+.qr-container {
+    padding: 2rem;
+}
+
+.qr-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.qr-code img {
+    padding: 1rem;
+    border:2px solid black;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+}
+
+.qr-code button a {
+    text-decoration: none;
+    color: black;
+}
