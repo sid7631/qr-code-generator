@@ -1,28 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator</title>
-    <link rel="stylesheet" href="app.css" />
+    <title>QR Studio — QR Code Generator</title>
+    <meta name="description" content="Create custom QR codes for URLs, text, email, phone, and WiFi instantly.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
-        <main class="container bg-white">
-            <section class="heading">
-                <div class="title">QR Codes</div>
-                <div class="sub-title">Create Custom QR Codes for your brand</div>
-            </section>
-            <section class="user-input">
-                <input type="text" name="search" id="qr-text" placeholder="Generate QR for anything...">
-                <button id="generate-qr">Generate</button>
-            </section>
-            <div class="qr-container">
-                <div class="qr-code"></div>
+
+    <div class="bg-orbs" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="2" y="2" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/>
+                    <rect x="13" y="2" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/>
+                    <rect x="2" y="13" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="2"/>
+                    <rect x="4.5" y="4.5" width="4" height="4" fill="currentColor" rx="0.5"/>
+                    <rect x="15.5" y="4.5" width="4" height="4" fill="currentColor" rx="0.5"/>
+                    <rect x="4.5" y="15.5" width="4" height="4" fill="currentColor" rx="0.5"/>
+                    <rect x="13" y="13" width="3.5" height="3.5" fill="currentColor" rx="0.4"/>
+                    <rect x="18.5" y="13" width="2.5" height="2.5" fill="currentColor" rx="0.3"/>
+                    <rect x="13" y="18.5" width="2.5" height="2.5" fill="currentColor" rx="0.3"/>
+                    <rect x="18.5" y="18.5" width="2.5" height="2.5" fill="currentColor" rx="0.3"/>
+                </svg>
+                <span class="logo-text">QR Studio</span>
             </div>
-        </main>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <h1 class="hero-title">Generate <span class="gradient-text">QR Codes</span><br>in Seconds</h1>
+            <p class="hero-subtitle">Create beautiful, scannable codes for URLs, text, email, phone &amp; WiFi</p>
+        </section>
+
+        <div class="app-grid">
+
+            <!-- Input Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Content</h2>
+                    <div class="type-tabs" id="type-tabs" role="tablist" aria-label="Content type">
+                        <button class="tab active" data-type="url" role="tab" aria-selected="true">URL</button>
+                        <button class="tab" data-type="text" role="tab" aria-selected="false">Text</button>
+                        <button class="tab" data-type="email" role="tab" aria-selected="false">Email</button>
+                        <button class="tab" data-type="phone" role="tab" aria-selected="false">Phone</button>
+                        <button class="tab" data-type="wifi" role="tab" aria-selected="false">WiFi</button>
+                    </div>
+                </div>
+
+                <div class="input-area" id="input-area" role="tabpanel"></div>
+
+                <div class="divider"></div>
+
+                <div class="section-label">Customize</div>
+                <div class="options-grid">
+                    <div class="option-group">
+                        <label class="option-label" for="fg-color">Foreground</label>
+                        <div class="color-wrapper">
+                            <div class="color-swatch" id="fg-swatch"></div>
+                            <input type="color" id="fg-color" value="#000000" class="color-input" aria-label="Foreground color">
+                            <span class="color-hex" id="fg-hex">#000000</span>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" for="bg-color">Background</label>
+                        <div class="color-wrapper">
+                            <div class="color-swatch" id="bg-swatch"></div>
+                            <input type="color" id="bg-color" value="#ffffff" class="color-input" aria-label="Background color">
+                            <span class="color-hex" id="bg-hex">#ffffff</span>
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" for="qr-size">Size</label>
+                        <select id="qr-size" class="select-input">
+                            <option value="200">Small — 200 px</option>
+                            <option value="300" selected>Medium — 300 px</option>
+                            <option value="400">Large — 400 px</option>
+                            <option value="500">XL — 500 px</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label class="option-label" for="error-level">Error Correction</label>
+                        <select id="error-level" class="select-input">
+                            <option value="L">Low — 7%</option>
+                            <option value="M">Medium — 15%</option>
+                            <option value="Q">Quartile — 25%</option>
+                            <option value="H" selected>High — 30%</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="generate-btn" id="generate-btn">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <polyline points="16,3 21,3 21,8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="4" y1="20" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <polyline points="21,16 21,21 16,21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="15" y1="15" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Generate QR Code
+                </button>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="panel output-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Preview</h2>
+                    <div class="status-badge" id="status-badge">Ready</div>
+                </div>
+
+                <div class="qr-display" id="qr-display">
+                    <div class="qr-placeholder" id="qr-placeholder" aria-label="QR code placeholder">
+                        <svg class="placeholder-icon" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+                            <rect x="8" y="8" width="26" height="26" rx="3" stroke="currentColor" stroke-width="2.5" stroke-dasharray="5 4"/>
+                            <rect x="46" y="8" width="26" height="26" rx="3" stroke="currentColor" stroke-width="2.5" stroke-dasharray="5 4"/>
+                            <rect x="8" y="46" width="26" height="26" rx="3" stroke="currentColor" stroke-width="2.5" stroke-dasharray="5 4"/>
+                            <rect x="14" y="14" width="14" height="14" fill="currentColor" rx="1" opacity="0.25"/>
+                            <rect x="52" y="14" width="14" height="14" fill="currentColor" rx="1" opacity="0.25"/>
+                            <rect x="14" y="52" width="14" height="14" fill="currentColor" rx="1" opacity="0.25"/>
+                            <rect x="46" y="46" width="9" height="9" fill="currentColor" rx="1" opacity="0.25"/>
+                            <rect x="59" y="46" width="9" height="9" fill="currentColor" rx="1" opacity="0.25"/>
+                            <rect x="46" y="59" width="9" height="9" fill="currentColor" rx="1" opacity="0.25"/>
+                            <rect x="59" y="59" width="9" height="9" fill="currentColor" rx="1" opacity="0.25"/>
+                        </svg>
+                        <p class="placeholder-title">No QR code yet</p>
+                        <span class="placeholder-sub">Fill in the content and hit Generate</span>
+                    </div>
+                    <div class="qr-canvas" id="qr-canvas"></div>
+                </div>
+
+                <div class="action-buttons" id="action-buttons">
+                    <button class="action-btn primary" id="download-btn">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Download PNG
+                    </button>
+                    <button class="action-btn secondary" id="copy-btn">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Copy Image
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="app.js"> </script>
+    <script src="app.js"></script>
 </body>
 </html>
